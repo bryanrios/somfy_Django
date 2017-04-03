@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+      <div class="page-header">
+        <h1>Somfy Control</h1>
+      </div>
+
+{% if controllers %}
+    {% for controller in controllers %}
+      <div class="controller-container text-center">
+        <div class="btn-group" role="group" aria-label="...">
+            <button type="button" class="btn btn-lg btn-warning" value="{{ controller.name }}:up" onclick="buttonpress(this)"><span class="glyphicon glyphicon-chevron-up" aria-hidden="true"></span></button>
+          <button type="button" class="btn btn-lg btn-default btn-wide" value="{{ controller.name }}:pref" onclick="buttonpress(this)">{{ controller.display }}</button>
+          <button type="button" class="btn btn-lg btn-primary" value="{{ controller.name }}:down" onclick="buttonpress(this)"><span class="glyphicon glyphicon-chevron-down" aria-hidden="true"></span></button>
+        </div>
+      </div>
+    {% endfor %}
+{% else %}
+    <p>No controllers are available.</p>
+{% endif %}
+
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+    function buttonpress(e) {
+        fields = e.value.split(':');
+        var form = document.createElement('form');
+        form.setAttribute('method', 'post');
+        form.setAttribute('action', '');
+        form.style.display = 'hidden';
+        var csrf = document.createElement('input');
+        csrf.setAttribute('type', 'hidden');
+        csrf.setAttribute('name', 'csrfmiddlewaretoken');
+        csrf.value = '{{ csrf_token }}';
+        form.appendChild(csrf);
+        var name = document.createElement('input');
+        name.setAttribute('type', 'hidden');
+        name.setAttribute('name', 'name');
+        name.value = fields[0];
+        form.appendChild(name);
+        var state = document.createElement('input');
+        state.setAttribute('type', 'hidden');
+        state.setAttribute('name', 'state');
+        state.value = fields[1];
+        form.appendChild(state);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    </script>
+{% endblock %}
