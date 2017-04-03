@@ -2,6 +2,6 @@ secret_key: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 db_name: 
 db_user: 
 db_pass: 
-db_host_cloudsql: /cloudsql/<connection_name>
+cloudsql_connection: <connection_name>
 db_host_local: 127.0.0.1
-static_url: https://storage.googleapis.com/<bucket_name>/static/
+bucket: <bucket_name>
