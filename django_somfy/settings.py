@@ -22,7 +22,7 @@ DATABASES = {
 
 if os.getenv('GAE_INSTANCE'):
     DEBUG = False
-    DATABASES['default']['HOST'] = '/cloudsql/' + SETTINGS['db_host_cloudsql']
+    DATABASES['default']['HOST'] = '/cloudsql/' + SETTINGS['cloudsql_connection']
     ALLOWED_HOSTS = ['.appspot.com']
     STATIC_URL = 'https://storage.googleapis.com/' + SETTINGS['bucket'] + '/static/'
 else:
