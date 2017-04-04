@@ -1,5 +1,5 @@
 import datetime
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -24,3 +24,9 @@ def index(request):
     context = {'controllers': controllers}
     return render(request, "index.html", context=context)
 
+@require_http_methods(["GET"])
+def state(request):
+    ds = datastore.Client()
+    query = ds.query(kind='Controller', order=('sort',))
+    json_dict = {result.key.name: result['state'] for result in query.fetch()}
+    return JsonResponse(json_dict)
