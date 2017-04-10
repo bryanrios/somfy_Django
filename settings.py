@@ -1,7 +1,3 @@
-"""
-Django settings for django_somfy project.
-"""
-
 import os
 import yaml
 with open('app_settings.yaml', 'r') as stream:
@@ -56,7 +52,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'django_somfy.urls'
+ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -74,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_somfy.wsgi.application'
+WSGI_APPLICATION = 'wsgi.application'
 
 AUTH_PASSWORD_VALIDATORS = [
     {

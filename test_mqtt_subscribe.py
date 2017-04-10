@@ -1,5 +1,5 @@
 import paho.mqtt.client as mqtt
-from django_somfy.settings import SETTINGS
+from settings import SETTINGS
 
 def on_connect(client, userdata, flags, rc):
     print("connected")
