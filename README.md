@@ -4,12 +4,12 @@ This project is a work-in-progress to automate the blinds in my home using an ap
 online message bus. This repository covers the building of the first step: a webpage to publish
 actionable events on that message bus. To do this we'll:
 
- 1. Use Google Cloud Platform to run our application.
-   1. Google CloudSQL for the database functions
-   2. Google App Engine for Python app hosting
-   3. Google Cloud Storage to host our static content (images, CSS, etc.)
- 2. Build a (minimal) Django app *with authentication*.
- 3. Use a [CloudMQTT](https://www.cloudmqtt.com/) message bus to publish events to.
+  1. Use Google Cloud Platform to run our application.
+      1. Google CloudSQL for the database functions
+      2. Google App Engine for Python app hosting
+      3. Google Cloud Storage to host our static content (images, CSS, etc.)
+  2. Build a (minimal) Django app *with authentication*.
+  3. Use a [CloudMQTT](https://www.cloudmqtt.com/) message bus to publish events to.
 
 This is mostly just a learning process for me, but hopefully these notes can be of use to someone
 else as well.
@@ -18,9 +18,9 @@ In the end we'll end up with a decent looking Bootstrap page for use on any devi
 
 ![Somfy Control webpage on iPhone](images/somfy_iphone_medium.png)
 
-**Important:** This application and its tooling uses settings that it expects in
-`app_settings.yaml`. A template for this file is provided, please complete it with the values as
-you go through the steps below.
+ > **Important:** This application and its tooling uses settings that it expects in
+ > `app_settings.yaml`. A template for this file is provided, please complete it with the values as
+ > you go through the steps below.
 
 ## Google Cloud Platform
 
@@ -93,9 +93,11 @@ Also make sure to add the values you use for database name, username and passwor
 ### Google App Engine
 
 To activate a Google App Engine app, just create one associated to your project. Note that the 
-region cannot be changed at a later time. *I learned the hard way, since the GCP Django on App Engine
-tutorial did not mention it and I had to destroy and create a new project. Also, after destroying 
-project you cannot use that name for another project for a couple of days...*
+region cannot be changed at a later time.
+
+ > *I learned the hard way, since the GCP Django on App Engine tutorial did not mention it and I
+ > had to destroy and create a new project. Also, after destroying project you cannot use that name
+ > for another project for a couple of days...*
 
 ```
 gcloud app create --region $REGION
@@ -130,7 +132,7 @@ instance).
 The settings also specify not to show debug output in production and that static content is served
 either from a local directory or the Cloud Storage bucket.
 
-```
+```python
 if os.getenv('GAE_INSTANCE'):
     DEBUG = False
     DATABASES['default']['HOST'] = '/cloudsql/' + SETTINGS['cloudsql_connection']
