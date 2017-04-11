@@ -1,5 +1,17 @@
+"""
+Settings for the Somfy Django web application and tooling.
+
+Depends on: `app_settings.yaml` file in same directory.
+Referenced by: Django application files and `Makefile`
+
+    Written by Michiel Appelman (michiel@appelman.se)
+
+"""
+
 import os
 import yaml
+
+# Required configuration file, template provided in this repository.
 with open('app_settings.yaml', 'r') as stream:
     SETTINGS = yaml.load(stream)
 
@@ -16,6 +28,7 @@ DATABASES = {
     }
 }
 
+# Switch between local dev environment and App Engine production env. based on GAE env. variables.
 if os.getenv('GAE_INSTANCE'):
     DEBUG = False
     DATABASES['default']['HOST'] = '/cloudsql/' + SETTINGS['cloudsql_connection']
@@ -29,9 +42,11 @@ else:
 
 STATIC_ROOT = 'static/'
 
+# Required settings for Django authentication framework and its decorator functions.
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 
+# Add you application here.
 INSTALLED_APPS = [
     'somfy_controller',
     'django.contrib.admin',
@@ -42,6 +57,12 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 ]
 
+# Changed from 'project_name.wsgi.application' to build a single-app project.
+WSGI_APPLICATION = 'wsgi.application'
+
+# Changed from 'project_name.urls' to build a single-app project.
+ROOT_URLCONF = 'urls'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -51,8 +72,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-ROOT_URLCONF = 'urls'
 
 TEMPLATES = [
     {
@@ -70,21 +89,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'wsgi.application'
-
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
 LANGUAGE_CODE = 'en-us'
