@@ -83,9 +83,9 @@ another terminal window for this to run the `mysql` command as described below. 
 ```
 mysql --host 127.0.0.1 --user root --password
 ..
-mysql> CREATE DATABASE django-db
+mysql> CREATE DATABASE djangodb;
 mysql> CREATE USER 'django_admin' IDENTIFIED BY 'xxxxxxxx';
-mysql> GRANT ALL ON django-db.* TO 'django_admin';
+mysql> GRANT ALL ON djangodb.* TO 'django_admin';
 ```
 
 Also make sure to add the values you use for database name, username and password to
