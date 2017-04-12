@@ -43,11 +43,12 @@ export PATH="$PATH:$HOME/sources/gcloud/google-cloud-sdk/bin"
 
 To start the project we'll first define some of the values. Make sure you run the other commands
 referencing these from the same shell session, or set them again in another session.
+Also make sure that these values will be unique across GCP.
 
 ```
-PROJECT=somfy-iot
+PROJECT=somfy-iot-123-make-unique
 REGION=europe-west
-DATABASE=django-db
+DATABASE=django-db-123-make-unique
 ```
 
 Create your GCP project and switch to it. Finally, get the credentials to make use of the full GCP
@@ -68,7 +69,7 @@ needed.
 ```
 gcloud sql instances create $DATABASE --tier=db-f1-micro --region=${REGION}1 --activation-policy=ALWAYS
 gcloud sql instances set-root-password $DATABASE --password xxxxxxxx
-gcloud sql instances describe | grep connectionName
+gcloud sql instances describe $DATABASE | grep connectionName
 ```
 
 Use the output of the last command as the value for `cloudsql_connection` in `app_settings.yaml`.
