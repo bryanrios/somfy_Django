@@ -1,12 +1,15 @@
 import paho.mqtt.client as mqtt
 from settings import SETTINGS
 
+
 def on_connect(client, userdata, flags, rc):
     print("connected")
     client.subscribe("somfy/#")
 
+
 def on_message(client, userdata, msg):
     print(msg.topic+" "+str(msg.payload))
+
 
 mqttc = mqtt.Client()
 mqttc.on_connect = on_connect
