@@ -29,11 +29,12 @@ DATABASES = {
 }
 
 # Switch between local dev environment and App Engine production env. based on GAE env. variables.
-if os.getenv('GAE_INSTANCE'):
+if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     DEBUG = False
     DATABASES['default']['HOST'] = '/cloudsql/' + SETTINGS['cloudsql_connection']
     ALLOWED_HOSTS = ['.appspot.com']
-    STATIC_URL = 'https://storage.googleapis.com/' + SETTINGS['bucket'] + '/static/'
+    STATIC_URL = '/static/'
+    # STATIC_URL = 'https://storage.googleapis.com/' + SETTINGS['bucket'] + '/static/'
 else:
     DEBUG = True
     DATABASES['default']['HOST'] = SETTINGS['db_host_local']
@@ -63,7 +64,7 @@ WSGI_APPLICATION = 'wsgi.application'
 # Changed from 'project_name.urls' to build a single-app project.
 ROOT_URLCONF = 'urls'
 
-MIDDLEWARE = [
+MIDDLEWARE_CLASSES = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
