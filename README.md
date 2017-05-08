@@ -43,11 +43,12 @@ export PATH="$PATH:$HOME/sources/gcloud/google-cloud-sdk/bin"
 
 To start the project we'll first define some of the values. Make sure you run the other commands
 referencing these from the same shell session, or set them again in another session.
+Also make sure that these values will be unique across GCP.
 
 ```
-PROJECT=somfy-iot
+PROJECT=somfy-iot-123-make-unique
 REGION=europe-west
-DATABASE=django-db
+DATABASE=django-db-123-make-unique
 ```
 
 Create your GCP project and switch to it. Finally, get the credentials to make use of the full GCP
@@ -68,7 +69,7 @@ needed.
 ```
 gcloud sql instances create $DATABASE --tier=db-f1-micro --region=${REGION}1 --activation-policy=ALWAYS
 gcloud sql instances set-root-password $DATABASE --password xxxxxxxx
-gcloud sql instances describe | grep connectionName
+gcloud sql instances describe $DATABASE | grep connectionName
 ```
 
 Use the output of the last command as the value for `cloudsql_connection` in `app_settings.yaml`.
@@ -82,9 +83,9 @@ another terminal window for this to run the `mysql` command as described below. 
 ```
 mysql --host 127.0.0.1 --user root --password
 ..
-mysql> CREATE DATABASE django-db
+mysql> CREATE DATABASE djangodb;
 mysql> CREATE USER 'django_admin' IDENTIFIED BY 'xxxxxxxx';
-mysql> GRANT ALL ON django-db.* TO 'django_admin';
+mysql> GRANT ALL ON djangodb.* TO 'django_admin';
 ```
 
 Also make sure to add the values you use for database name, username and password to
