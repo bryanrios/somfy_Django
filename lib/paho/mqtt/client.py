@@ -505,7 +505,7 @@ class Client(object):
         self._protocol = protocol
         self._userdata = userdata
         self._sock = None
-        self._sockpairR, self._sockpairW = _socketpair_compat()
+        # self._sockpairR, self._sockpairW = _socketpair_compat()
         self._keepalive = 60
         self._message_retry = 20
         self._last_retry_check = 0
@@ -816,10 +816,7 @@ class Client(object):
         self._messages_reconnect_reset()
 
         try:
-            if (sys.version_info[0] == 2 and sys.version_info[1] < 7) or (sys.version_info[0] == 3 and sys.version_info[1] < 2):
-                sock = socket.create_connection((self._host, self._port))
-            else:
-                sock = socket.create_connection((self._host, self._port), source_address=(self._bind_address, 0))
+            sock = socket.create_connection((self._host, self._port))
         except socket.error as err:
             if err.errno != errno.EINPROGRESS and err.errno != errno.EWOULDBLOCK and err.errno != EAGAIN:
                 raise
@@ -1825,9 +1822,9 @@ class Client(object):
 
             try:
                 if self._ssl:
-                    write_length = self._ssl.write(packet['packet'][packet['pos']:])
+                    write_length = self._ssl.write(str(packet['packet'][packet['pos']:]))
                 else:
-                    write_length = self._sock.send(packet['packet'][packet['pos']:])
+                    write_length = self._sock.send(str(packet['packet'][packet['pos']:]))
             except (AttributeError, ValueError):
                 self._current_out_packet_mutex.release()
                 return MQTT_ERR_SUCCESS
@@ -2250,14 +2247,6 @@ class Client(object):
                 self._current_out_packet = self._out_packet.pop(0)
             self._current_out_packet_mutex.release()
         self._out_packet_mutex.release()
-
-        # Write a single byte to sockpairW (connected to sockpairR) to break
-        # out of select() if in threaded mode.
-        try:
-            self._sockpairW.send(sockpair_data)
-        except socket.error as err:
-            if err.errno != EAGAIN:
-                raise
 
         if not self._in_callback and self._thread is None:
             return self.loop_write()
