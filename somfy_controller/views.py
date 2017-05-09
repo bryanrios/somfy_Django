@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-import paho.mqtt.client as mqtt
+import paho_mqtt_client as mqtt
 from settings import SETTINGS
 from .models import Controller
 

@@ -11,6 +11,10 @@
 #
 # Contributors:
 #    Roger Light - initial API and implementation
+#
+###########
+# Edited by Michiel Appelman to run on Google App Engine, Standard Environment
+###########
 
 """
 This is an MQTT v3.1 client module. MQTT is a lightweight pub/sub messaging
@@ -505,7 +509,6 @@ class Client(object):
         self._protocol = protocol
         self._userdata = userdata
         self._sock = None
-        # self._sockpairR, self._sockpairW = _socketpair_compat()
         self._keepalive = 60
         self._message_retry = 20
         self._last_retry_check = 0
