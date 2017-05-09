@@ -4,7 +4,6 @@ db_user:
 db_pass: 
 cloudsql_connection: <connection_name>
 db_host_local: 127.0.0.1
-bucket: <bucket_name>
 mqtt_host: 
 mqtt_port: 
 mqtt_user: 
