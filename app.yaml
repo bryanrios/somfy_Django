@@ -6,7 +6,11 @@ handlers:
 - url: /static
   static_dir: static/
 - url: .*
-  script: wsgi.application
+  script: appdynamics.scripts.wsgi
+
+env_variables:
+  APPD_CONFIG_FILE: 'appdynamics.cfg'
+  APPD_WSGI_MODULE: 'wsgi.application'
 
 libraries:
 - name: django
@@ -30,4 +34,5 @@ skip_files:
 - ^(.*/)?.*/RCS/.*$
 - ^(.*/)?\..*$
 - ^(.*/)?\.template$
+- ^(.*/)?rt.jar$
 
